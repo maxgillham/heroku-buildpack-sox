@@ -1,4 +1,4 @@
 !#/bin/sh
 
-echo "sox buildpack"
+echo "sox"
 exit 0
