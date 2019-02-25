@@ -1,0 +1,23 @@
+!#/bin/sh
+
+indent() {
+  sed -u 's/^/       /'
+}
+echo "---> Install sox"
+BUILD_DIR=$1
+VENDOR_DIR="vendor"
+DOWNLOAD_URL="https://sourceforge.net/projects/sox/files/sox/14.4.2/sox-14.4.2.tar.gz/download"
+
+echo "DOWNLOAD_URL = " $DOWNLOAD_URL | indent
+
+cd $BUILD_DIR
+mkdir -p $VENDOR_DIR
+cd $VENDOR_DIR
+mkdir -p sox
+cd sox
+curl -L --silent $DOWNLOAD_URL | tar xJ --strip-components=1
+echo "exporting PATH and LIBRARY_PATH" | indent
+PROFILE_PATH="$BUILD_DIR/.profile.d/sox.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="$PATH:vendor/sox/bin"' >> $PROFILE_PATH
+echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:vendor/sox/lib"' >> $PROFILE_PATH
